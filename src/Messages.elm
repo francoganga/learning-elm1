@@ -1,6 +1,9 @@
-module Messages exposing (..)
+module Messages exposing (Msg(..))
+
+import Http exposing (Error)
+import Models exposing (Todo)
 
 
 type Msg
     = NoOp
-    | GetData
+    | RcvData (Result Http.Error (List Todo))
