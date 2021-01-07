@@ -3,47 +3,15 @@ module Main exposing (..)
 import Browser
 import Html exposing (Html, button, div, h1, img, p, text)
 import Html.Attributes exposing (class, src)
-
-
-
----- MODEL ----
-
-
-type alias Model =
-    {}
+import Messages exposing (Msg(..))
+import Models exposing (Model)
+import Update exposing (update)
+import View exposing (view)
 
 
 init : ( Model, Cmd Msg )
 init =
     ( {}, Cmd.none )
-
-
-
----- UPDATE ----
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
-
-
-
----- VIEW ----
-
-
-view : Model -> Html Msg
-view model =
-    div [ class "h-screen" ]
-        [ div [ class "grid grid-rows-burger h-full" ]
-            [ div [ class "bg-red-600" ] [ text "header" ]
-            , div [ class "bg-green-400 grid grid-cols-side-test h-full" ] [ div [ class "bg-indigo-600" ] [], div [ class "bg-green-400" ] [ text "asd" ] ]
-            , div [ class "bg-red-600" ] [ text "footer" ]
-            ]
-        ]
 
 
 
