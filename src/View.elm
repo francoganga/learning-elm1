@@ -1,9 +1,9 @@
-module View exposing (..)
+module View exposing (view)
 
 import Components.Header as Header exposing (view)
 import Components.MainContent as MainContent exposing (view)
 import Html exposing (Html, div, text)
-import Html.Attributes exposing (class, src)
+import Html.Attributes exposing (class)
 import Messages exposing (Msg(..))
 import Models exposing (Model)
 

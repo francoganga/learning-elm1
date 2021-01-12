@@ -1,4 +1,4 @@
-module Models exposing (..)
+module Models exposing (Data(..), Model, Todo)
 
 import Array exposing (Array)
 
@@ -11,7 +11,14 @@ type alias Todo =
     }
 
 
+type Data
+    = Loading
+    | Success (Array Todo)
+    | Failure
+
+
 type alias Model =
-    { data : Maybe (Array Todo)
+    { data : Data
     , page : Int
+    , menu : Bool
     }

@@ -1,20 +1,18 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Browser
-import Html exposing (Html, button, div, h1, img, p, text)
-import Html.Attributes exposing (class, src)
 import Http exposing (Error(..))
-import Json.Decode as Decode exposing (Decoder, bool, float, int, string)
-import Json.Decode.Pipeline as Pipeline exposing (..)
+import Json.Decode as Decode exposing (Decoder, bool, int, string)
+import Json.Decode.Pipeline as Pipeline exposing (required)
 import Messages exposing (Msg(..))
-import Models exposing (Model, Todo)
+import Models exposing (Data(..), Model, Todo)
 import Update exposing (update)
 import View exposing (view)
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { data = Nothing, page = 0 }, getData )
+    ( { data = Loading, page = 0, menu = False }, getData )
 
 
 getData : Cmd Msg

@@ -1,9 +1,11 @@
-module Components.Header exposing (..)
+module Components.Header exposing (view)
 
-import Html exposing (Html, text)
-import Messages exposing (Msg)
+import Html exposing (Html, button, text)
+import Html.Events exposing (onClick)
+import Messages exposing (Msg(..))
 
 
 view : Html Msg
 view =
-    text "this is header"
+    button [ onClick ToggleMenu ]
+        [ text "toggle" ]

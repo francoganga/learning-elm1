@@ -1,8 +1,8 @@
-module Update exposing (..)
+module Update exposing (update)
 
-import Array exposing (Array)
+import Array exposing (fromList)
 import Messages exposing (Msg(..))
-import Models exposing (Model)
+import Models exposing (Data(..), Model)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -11,14 +11,24 @@ update msg model =
         RcvData httpPayload ->
             case httpPayload of
                 Ok data ->
-                    let
-                        _ =
-                            Debug.log "data" data
-                    in
-                    ( { model | data = Just (Array.fromList data) }, Cmd.none )
+                    ( { model | data = Success (fromList data) }, Cmd.none )
 
                 Err _ ->
-                    ( model, Cmd.none )
+                    ( { model | data = Failure }, Cmd.none )
 
         NoOp ->
+            ( model, Cmd.none )
+
+        ToggleMenu ->
+            let
+                _ =
+                    Debug.log "info" "toggle"
+            in
+            ( { model | menu = not model.menu }, Cmd.none )
+
+        Edit ->
+            let
+                _ =
+                    Debug.log "info" "edit works"
+            in
             ( model, Cmd.none )
