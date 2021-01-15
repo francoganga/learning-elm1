@@ -1,6 +1,7 @@
-module Models exposing (Data(..), Model, Todo)
+module Models exposing (Model, RequestStatus(..), Todo)
 
 import Array exposing (Array)
+import RemoteData exposing (RemoteData, WebData)
 
 
 type alias Todo =
@@ -8,17 +9,18 @@ type alias Todo =
     , id : Int
     , title : String
     , completed : Bool
+    , selected : Bool
     }
 
 
-type Data
+type RequestStatus
     = Loading
-    | Success (Array Todo)
+    | Success
     | Failure
 
 
 type alias Model =
-    { data : Data
+    { data : WebData (Array Todo)
     , page : Int
     , menu : Bool
     }

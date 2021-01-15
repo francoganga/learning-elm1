@@ -1,23 +1,25 @@
 module Main exposing (main)
 
+import Array exposing (Array)
 import Browser
 import Http exposing (Error(..))
 import Json.Decode as Decode exposing (Decoder, bool, int, string)
 import Json.Decode.Pipeline as Pipeline exposing (required)
 import Messages exposing (Msg(..))
-import Models exposing (Data(..), Model, Todo)
+import Models exposing (Model, Todo)
+import RemoteData exposing (RemoteData, WebData)
 import Update exposing (update)
 import View exposing (view)
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { data = Loading, page = 0, menu = False }, getData )
+    ( { data = RemoteData.NotAsked, page = 0, menu = False }, getData )
 
 
 getData : Cmd Msg
 getData =
-    Http.get { url = "https://jsonplaceholder.typicode.com/todos", expect = Http.expectJson RcvData listTodoDecoder }
+    Http.get { url = "https://jsonplaceholder.typicode.com/todos", expect = Http.expectJson (RemoteData.fromResult >> RcvData) listTodoDecoder }
 
 
 todoDecoder : Decoder Todo
@@ -27,11 +29,12 @@ todoDecoder =
         |> Pipeline.required "id" int
         |> Pipeline.required "title" string
         |> Pipeline.required "completed" bool
+        |> Pipeline.hardcoded False
 
 
-listTodoDecoder : Decoder (List Todo)
+listTodoDecoder : Decoder (Array Todo)
 listTodoDecoder =
-    Decode.list todoDecoder
+    Decode.array todoDecoder
 
 
 

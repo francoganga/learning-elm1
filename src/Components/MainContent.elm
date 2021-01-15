@@ -3,15 +3,16 @@ module Components.MainContent exposing (view)
 import Array
 import Html exposing (Html, button, div, h1, input, table, tbody, td, text, th, thead, tr)
 import Html.Attributes exposing (class, type_)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onCheck, onClick)
 import Messages exposing (Msg(..))
-import Models exposing (Data(..), Model, Todo)
+import Models exposing (Model, RequestStatus(..), Todo)
+import RemoteData exposing (..)
 
 
 renderTodo : Todo -> Html Msg
 renderTodo todo =
     tr []
-        [ td [ class "border px-8 py-2" ] [ input [ type_ "checkbox" ] [] ]
+        [ td [ class "border px-8 py-2" ] [ input [ type_ "checkbox", onCheck (\v -> ToggleSelected todo.id) ] [] ]
         , td [ class "border px-8 py-2" ] [ text (String.fromInt todo.id) ]
         , td [ class "border px-8 py-2" ] [ text (String.fromInt todo.userId) ]
         , td [ class "border px-8 py-2" ] [ text todo.title ]
@@ -33,24 +34,27 @@ view model =
                 ]
             , tbody
                 []
-                (tableBody model.data)
+                (tableBody model)
             ]
         ]
 
 
-tableBody : Data -> List (Html Msg)
-tableBody data =
-    case data of
-        Success todos ->
-            todos
-                |> Array.toList
-                |> List.map renderTodo
+tableBody : Model -> List (Html Msg)
+tableBody model =
+    case model.data of
+        RemoteData.NotAsked ->
+            [ text "" ]
 
-        Failure ->
-            [ text "Ha ocurrido un error" ]
-
-        Loading ->
+        RemoteData.Loading ->
             [ text "Loading..." ]
+
+        RemoteData.Success todos ->
+            todos
+                |> Array.map renderTodo
+                |> Array.toList
+
+        RemoteData.Failure httpError ->
+            [ text "Failure" ]
 
 
 menu : Model -> Html Msg
