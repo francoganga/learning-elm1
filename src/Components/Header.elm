@@ -7,5 +7,5 @@ import Messages exposing (Msg(..))
 
 view : Html Msg
 view =
-    button [ onClick ToggleMenu ]
+    button []
         [ text "toggle" ]

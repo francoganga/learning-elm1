@@ -2,19 +2,21 @@ module Main exposing (main)
 
 import Array exposing (Array)
 import Browser
+import Dict exposing (Dict)
 import Http exposing (Error(..))
 import Json.Decode as Decode exposing (Decoder, bool, int, string)
 import Json.Decode.Pipeline as Pipeline exposing (required)
 import Messages exposing (Msg(..))
 import Models exposing (Model, Todo)
 import RemoteData exposing (RemoteData, WebData)
+import Set exposing (Set)
 import Update exposing (update)
 import View exposing (view)
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { data = RemoteData.NotAsked, page = 0, menu = False }, getData )
+    ( { data = RemoteData.NotAsked, page = 0, menu = False, selected = Set.empty }, getData )
 
 
 getData : Cmd Msg
@@ -29,7 +31,6 @@ todoDecoder =
         |> Pipeline.required "id" int
         |> Pipeline.required "title" string
         |> Pipeline.required "completed" bool
-        |> Pipeline.hardcoded False
 
 
 listTodoDecoder : Decoder (Array Todo)

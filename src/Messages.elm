@@ -9,6 +9,6 @@ import RemoteData exposing (WebData)
 type Msg
     = NoOp
     | RcvData (WebData (Array Todo))
-    | ToggleMenu
     | Edit
-    | ToggleSelected Int
+    | ToggleSelected ( Int, Bool )
+    | ToggleMultiple
